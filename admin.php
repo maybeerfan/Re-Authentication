@@ -37,15 +37,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - AuthSystem</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h2>Admin Login</h2>
-    <?php if (isset($error)) echo "<p style='color:red;'>$error</p>"; ?>
-    <form method="POST" action="admin.php">
-        <label>Username: <input type="text" name="username" required></label><br><br>
-        <label>Password: <input type="password" name="password" required></label><br><br>
-        <button type="submit">Login</button>
-    </form>
+    <nav class="navbar">
+        <a href="index.php" class="logo">AuthSystem</a>
+        <div class="nav-links">
+            <a href="login.php">User Login</a>
+        </div>
+    </nav>
+
+    <div class="form-container">
+        <h2>Admin Login</h2>
+        <?php if (isset($error)) echo "<div class='error-message'>$error</div>"; ?>
+        
+        <form method="POST" action="admin.php">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="Enter admin username" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Enter admin password" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Login as Admin</button>
+        </form>
+    </div>
 </body>
 </html>

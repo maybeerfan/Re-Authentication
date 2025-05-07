@@ -81,23 +81,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<!-- فرم HTML لاگین -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - AuthSystem</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h2>Login</h2>
-    <?php if (isset($error)) echo "<p style='color:red;'>$error</p>"; ?>
-    <form method="POST" action="login.php">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <label>
-            <input type="checkbox" name="remember"> Remember me for 2 weeks
-        </label>
-        <button type="submit">Login</button>
-    </form>
+    <nav class="navbar">
+        <a href="index.php" class="logo">AuthSystem</a>
+        <div class="nav-links">
+            <a href="register.php">Register</a>
+        </div>
+    </nav>
+
+    <div class="form-container">
+        <h2>Login to Your Account</h2>
+        <?php if (isset($error)) echo "<div class='error-message'>$error</div>"; ?>
+        
+        <form method="POST" action="login.php">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required>
+            </div>
+            
+            <div class="checkbox-group">
+                <input type="checkbox" id="remember" name="remember">
+                <label for="remember">Remember me for 2 weeks</label>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+        </form>
+    </div>
 </body>
 </html>

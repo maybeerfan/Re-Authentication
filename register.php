@@ -2,46 +2,63 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - AuthSystem</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h2>Register</h2>
-    <form action="register.php" method="post">
-        <label for="username">Username:</label>
-        <input type="text" name="username" id="username" required><br><br>
+    <nav class="navbar">
+        <a href="index.php" class="logo">AuthSystem</a>
+        <div class="nav-links">
+            <a href="login.php">Login</a>
+        </div>
+    </nav>
 
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" required><br><br>
+    <div class="form-container">
+        <h2>Create an Account</h2>
+        
+        <?php
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // 1. Connect to the database
+            $conn = new mysqli('localhost', 'root', '', 'login_system');
 
-        <button type="submit">Register</button>
-    </form>
+            if ($conn->connect_error) {
+                echo "<div class='error-message'>Connection failed: " . $conn->connect_error . "</div>";
+            } else {
+                // 2. Get and sanitize input
+                $username = $conn->real_escape_string($_POST['username']);
+                $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // encrypt the password
 
-    <?php
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // 1. Connect to the database
-        $conn = new mysqli('localhost', 'root', '', 'login_system');
+                // 3. Insert into database
+                $stmt = $conn->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
+                $stmt->bind_param("ss", $username, $password);
 
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
+                if ($stmt->execute()) {
+                    echo "<div class='success-message'>User registered successfully! You can now <a href='login.php'>login</a>.</div>";
+                } else {
+                    echo "<div class='error-message'>Error: " . $stmt->error . "</div>";
+                }
+
+                $stmt->close();
+                $conn->close();
+            }
         }
+        ?>
 
-        // 2. Get and sanitize input
-        $username = $conn->real_escape_string($_POST['username']);
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // encrypt the password
+        <form action="register.php" method="post">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="Choose a username" required>
+            </div>
 
-        // 3. Insert into database
-        $stmt = $conn->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
-        $stmt->bind_param("ss", $username, $password);
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Choose a password" required>
+            </div>
 
-        if ($stmt->execute()) {
-            echo "User registered successfully!";
-        } else {
-            echo "Error: " . $stmt->error;
-        }
-
-        $stmt->close();
-        $conn->close();
-    }
-    ?>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+        </form>
+    </div>
 </body>
 </html>
