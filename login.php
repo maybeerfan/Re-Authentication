@@ -18,15 +18,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result = $stmt->get_result();
 
     if ($result->num_rows === 1) {
-        // اگر کاربر پیدا شد → ورود موفق
         $row = $result->fetch_assoc();
-        $_SESSION['loggedin'] = true;
-        $_SESSION['username'] = $username;
-        $_SESSION['role'] = $row['role'];  // ← نقش کاربر
-        header("Location: dashboard.php");
-        exit;
+    
+        if (password_verify($password, $row['password'])) {
+            // رمز درسته
+            $_SESSION['loggedin'] = true;
+            $_SESSION['username'] = $username;
+            $_SESSION['role'] = $row['role'];
+            header("Location: users.php");
+            exit;
+        } else {
+            $error = "Wrong password.";
+        }
     } else {
-        $error = "Invalid username or password.";
+        $error = "User not found.";
     }
 
     $stmt->close();
