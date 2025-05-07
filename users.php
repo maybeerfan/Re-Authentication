@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+// بررسی اینکه آیا کاربر وارد شده است یا نه
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header('Location: admin.php');  // اگر وارد نشده، به صفحه لاگین هدایت می‌کنیم
+    exit;
+}
 $conn = new mysqli('localhost', 'root', '', 'login_system');
 
 if ($conn->connect_error) {

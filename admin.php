@@ -1,4 +1,12 @@
 <?php
+
+session_start();
+
+// اگر کاربر قبلاً وارد شده باشد، به صفحه users.php هدایت می‌کنیم
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+    header('Location: users.php');
+    exit;
+}
 // اگر فرم ارسال شد
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn = new mysqli('localhost', 'root', '', 'login_system');
