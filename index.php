@@ -74,6 +74,7 @@
             transition: all 0.2s ease;
             font-weight: 500;
             letter-spacing: -0.01em;
+            text-decoration: none;
         }
         .btn-primary {
             background: #2563eb;
