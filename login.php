@@ -7,25 +7,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    // گرفتن اطلاعات از فرم
     $username = $conn->real_escape_string($_POST['username']);
     $password = $_POST['password'];
 
-    // پیدا کردن کاربر در دیتابیس
-    $stmt = $conn->prepare("SELECT * FROM users WHERE username = ? AND password = ?");
-    $stmt->bind_param("ss", $username, $password);  // در مرحله بعد یاد می‌گیریم چطور رمز رو هش کنیم
+    // فقط با username کاربر رو پیدا می‌کنیم
+    $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
+    $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows === 1) {
         $row = $result->fetch_assoc();
-    
+
         if (password_verify($password, $row['password'])) {
             // رمز درسته
             $_SESSION['loggedin'] = true;
             $_SESSION['username'] = $username;
             $_SESSION['role'] = $row['role'];
-            header("Location: users.php");
+            header("Location: dashboard.php");
             exit;
         } else {
             $error = "Wrong password.";
