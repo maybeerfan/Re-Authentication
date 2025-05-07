@@ -19,8 +19,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($result->num_rows === 1) {
         // اگر کاربر پیدا شد → ورود موفق
+        $row = $result->fetch_assoc();
         $_SESSION['loggedin'] = true;
         $_SESSION['username'] = $username;
+        $_SESSION['role'] = $row['role'];  // ← نقش کاربر
         header("Location: dashboard.php");
         exit;
     } else {

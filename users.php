@@ -2,8 +2,9 @@
 session_start();
 
 // بررسی اینکه آیا کاربر وارد شده است یا نه
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header('Location: admin.php');  // اگر وارد نشده، به صفحه لاگین هدایت می‌کنیم
+if (!isset($_SESSION['loggedin']) || $_SESSION['role'] !== 'admin') {
+    http_response_code(403);
+    echo "<h1>403 Forbidden</h1><p>You do not have permission to access this page.</p>";
     exit;
 }
 $conn = new mysqli('localhost', 'root', '', 'login_system');
