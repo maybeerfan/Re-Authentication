@@ -42,15 +42,13 @@ mysql -u your_username -p login_system < login_system.sql
 ```
 
 3. Configure database connection:
-   - Open `config.php` (create if not exists)
-   - Add your database credentials:
+   - Open `index.php` and locate the database connection settings
+   - Update the following variables with your database credentials:
 ```php
-<?php
-define('DB_HOST', 'localhost');
-define('DB_USER', 'your_username');
-define('DB_PASS', 'your_password');
-define('DB_NAME', 'login_system');
-?>
+$host = 'localhost';
+$dbname = 'login_system';
+$username = 'your_username';
+$password = 'your_password';
 ```
 
 ### Running the Project
